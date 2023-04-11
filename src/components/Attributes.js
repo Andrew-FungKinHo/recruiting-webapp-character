@@ -4,7 +4,7 @@ const Attributes = ({ attributeValues, handleAttributeCounter, modifierValues })
     return (
         <div>
             <h2>Attributes</h2>
-            <div>
+            <div className="attributes-overall">
                 {Object.keys(attributeValues).map((attribute, id) => {
                     return (
                         <div key={id} >
