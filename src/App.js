@@ -7,6 +7,7 @@ import ClassesSection from './components/ClassSection';
 function App() {
   const [attributeValues, setAttributeValues] = useState(createAttributesObject(0));
   const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
+  const [currentClass, setCurrentClass] = useState(null);
 
   function creatClassesQualifiedObj(initialBoolean) {
     return Object.keys(CLASS_LIST).reduce((obj, curr) => ({ ...obj, [curr]: initialBoolean }), {});
@@ -59,7 +60,7 @@ function App() {
       <header className="App-header">
         React Coding exercise
       </header>
-      <ClassesSection classesQualified={classesQualified} />
+      <ClassesSection classesQualified={classesQualified} currentClass={currentClass} setCurrentClass={setCurrentClass} />
       <Attributes
         attributeValues={attributeValues}
         setAttributeValues={setAttributeValues}

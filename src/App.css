@@ -53,3 +53,9 @@
   justify-content: space-evenly;
   align-items: center;
 }
+
+.classes-headers {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
