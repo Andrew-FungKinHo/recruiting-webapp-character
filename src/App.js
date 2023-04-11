@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import './App.css';
-import { ATTRIBUTE_LIST } from './data/consts.js';
-import Attributes from './components/AttributesSection';
+import { ATTRIBUTE_LIST, CLASS_LIST } from './data/consts.js';
+import Attributes from './components/Attributes';
+import ClassesSection from './components/ClassSection';
 
 function App() {
   const [attributeValues, setAttributeValues] = useState(createAttributesObject(0));
+  const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
+
+  function creatClassesQualifiedObj(initialBoolean) {
+    return Object.keys(CLASS_LIST).reduce((obj, curr) => ({ ...obj, [curr]: initialBoolean }), {});
+  }
 
   // instantiates an object with Attributes as keys and initialValue as values
   function createAttributesObject(initialValue) {
@@ -30,6 +36,22 @@ function App() {
         [attribute]: attributeValues[attribute] += 1,
       });
     }
+
+    // linear complexity: At most number of classes * number of attributes comparisons
+    for (let classType in CLASS_LIST) {
+      let hasClass = true;
+      for (let attribute in CLASS_LIST[classType]) {
+        // break out of loop if any of the character's attributes does not reach the minimum
+        if (attributeValues[attribute] < CLASS_LIST[classType][attribute]) {
+          hasClass = false;
+          break
+        }
+      }
+      // assign the hasClass status back to each class
+      classesQualified[classType] = hasClass
+    }
+    // update state of classesQualified
+    setClassesQualified(classesQualified);
   }
 
   return (
@@ -37,6 +59,7 @@ function App() {
       <header className="App-header">
         React Coding exercise
       </header>
+      <ClassesSection classesQualified={classesQualified} />
       <Attributes
         attributeValues={attributeValues}
         setAttributeValues={setAttributeValues}
