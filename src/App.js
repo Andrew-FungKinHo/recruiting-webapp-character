@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { API_URL, ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT } from './data/consts.js';
+import { API_URL, ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT, MAX_ATTRIBUTE_TOTAL } from './data/consts.js';
 import Attributes from './components/Attributes';
 import ClassesSection from './components/ClassSection';
 
@@ -41,12 +41,23 @@ function App() {
         [attribute]: attributeValues[attribute] -= 1,
       });
     }
-    // operation check if needed
-    else {
+
+    else if (op === "+") {
+      // find current sum of all the attribute points
+      const currentAttributeTotal = Object.values(attributeValues).reduce((acc, cur) => acc + cur, 0);
+
+      // disable events if exceed MAX_ATTRIBUTE_TOTAL
+      if (currentAttributeTotal >= MAX_ATTRIBUTE_TOTAL) {
+        return;
+      }
       setAttributeValues({
         ...attributeValues,
         [attribute]: attributeValues[attribute] += 1,
       });
+    }
+    // unknown operation
+    else {
+      return;
     }
 
     // linear complexity: At most number of classes * number of attributes comparisons

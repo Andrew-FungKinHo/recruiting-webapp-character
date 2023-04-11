@@ -57,5 +57,5 @@ export const SKILL_LIST = [
 ]
 
 export const INIT_POINT = 0;
-
+export const MAX_ATTRIBUTE_TOTAL = 70;
 export const API_URL = "https://recruiting.verylongdomaintotestwith.ca/api/Andrew-FungKinHo/character"
