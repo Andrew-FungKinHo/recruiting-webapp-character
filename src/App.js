@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import './App.css';
-import { ATTRIBUTE_LIST, CLASS_LIST } from './data/consts.js';
+import { ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT } from './data/consts.js';
 import Attributes from './components/Attributes';
 import ClassesSection from './components/ClassSection';
 
 function App() {
 
-  // TODO: remove magic numbers(0,-5) and put them in consts.js 
-  const [attributeValues, setAttributeValues] = useState(createAttributesObject(0));
+  const [attributeValues, setAttributeValues] = useState(createAttributesObject(INIT_POINT));
   const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
   const [currentClass, setCurrentClass] = useState(null);
-  const [modifierValues, setModifierValues] = useState(createAttributesObject(-5));
+  const [modifierValues, setModifierValues] = useState(createAttributesObject(Math.floor((INIT_POINT - 10) / 2)));
 
   function creatClassesQualifiedObj(initialBoolean) {
     return Object.keys(CLASS_LIST).reduce((obj, curr) => ({ ...obj, [curr]: initialBoolean }), {});
