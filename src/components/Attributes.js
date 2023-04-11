@@ -1,6 +1,6 @@
 import React from "react";
 
-const Attributes = ({ attributeValues, handleAttributeCounter }) => {
+const Attributes = ({ attributeValues, handleAttributeCounter, modifierValues }) => {
     return (
         <div>
             <h2>Attributes</h2>
@@ -23,6 +23,7 @@ const Attributes = ({ attributeValues, handleAttributeCounter }) => {
                                 >
                                     -
                                 </button>
+                                <h4>Modifier: {modifierValues[attribute]}</h4>
                             </div>
                         </div>)
                 }

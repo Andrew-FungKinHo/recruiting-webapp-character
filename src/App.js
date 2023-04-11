@@ -5,9 +5,12 @@ import Attributes from './components/Attributes';
 import ClassesSection from './components/ClassSection';
 
 function App() {
+
+  // TODO: remove magic numbers(0,-5) and put them in consts.js 
   const [attributeValues, setAttributeValues] = useState(createAttributesObject(0));
   const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
   const [currentClass, setCurrentClass] = useState(null);
+  const [modifierValues, setModifierValues] = useState(createAttributesObject(-5));
 
   function creatClassesQualifiedObj(initialBoolean) {
     return Object.keys(CLASS_LIST).reduce((obj, curr) => ({ ...obj, [curr]: initialBoolean }), {});
@@ -53,6 +56,12 @@ function App() {
     }
     // update state of classesQualified
     setClassesQualified(classesQualified);
+
+    // update the modifier value based on attribute values
+    setModifierValues({
+      ...modifierValues,
+      [attribute]: Math.floor((attributeValues[attribute] - 10) / 2),
+    });
   }
 
   return (
@@ -65,6 +74,7 @@ function App() {
         attributeValues={attributeValues}
         setAttributeValues={setAttributeValues}
         handleAttributeCounter={handleAttributeCounter}
+        modifierValues={modifierValues}
       />
     </div>)
 }
