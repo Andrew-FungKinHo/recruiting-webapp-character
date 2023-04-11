@@ -3,6 +3,7 @@ import './App.css';
 import { API_URL, ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT, MAX_ATTRIBUTE_TOTAL } from './data/consts.js';
 import Attributes from './components/Attributes';
 import ClassesSection from './components/ClassSection';
+import Skills from './components/Skills';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
   const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
   const [currentClass, setCurrentClass] = useState(null);
   const [modifierValues, setModifierValues] = useState(createAttributesObject(Math.floor((INIT_POINT - 10) / 2)));
+  const [maxPointsForSkills, setMaxPointsForSkills] = useState(0);
 
   useEffect(() => {
     fetch(API_URL).then((response) => response.json())
@@ -81,6 +83,10 @@ function App() {
       ...modifierValues,
       [attribute]: Math.floor((attributeValues[attribute] - 10) / 2),
     });
+
+    // find the maximum points to spend on skills
+    setMaxPointsForSkills(Math.max(10 + (4 * modifierValues["Intelligence"]), 0));
+
   }
 
   async function handleSaveCharacterInformation(e) {
@@ -125,6 +131,7 @@ function App() {
         handleAttributeCounter={handleAttributeCounter}
         modifierValues={modifierValues}
       />
+      <Skills maxPointsForSkills={maxPointsForSkills} />
       <button onClick={(e) => { handleSaveCharacterInformation(e) }}>Save character</button>
     </div>)
 }
