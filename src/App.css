@@ -40,7 +40,16 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.attribute-counter {
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
