@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT } from './data/consts.js';
+import { API_URL, ATTRIBUTE_LIST, CLASS_LIST, INIT_POINT } from './data/consts.js';
 import Attributes from './components/Attributes';
 import ClassesSection from './components/ClassSection';
 
@@ -10,6 +10,15 @@ function App() {
   const [classesQualified, setClassesQualified] = useState(creatClassesQualifiedObj(false));
   const [currentClass, setCurrentClass] = useState(null);
   const [modifierValues, setModifierValues] = useState(createAttributesObject(Math.floor((INIT_POINT - 10) / 2)));
+
+  useEffect(() => {
+    fetch(API_URL).then((response) => response.json())
+      .then((data) => {
+        setAttributeValues(data.body.attributeValues);
+        setClassesQualified(data.body.classesQualified);
+        setModifierValues(data.body.modifierValues);
+      });
+  }, []);
 
   function creatClassesQualifiedObj(initialBoolean) {
     return Object.keys(CLASS_LIST).reduce((obj, curr) => ({ ...obj, [curr]: initialBoolean }), {});
@@ -63,6 +72,36 @@ function App() {
     });
   }
 
+  async function handleSaveCharacterInformation(e) {
+    e.preventDefault();
+    const data = {
+      attributeValues,
+      classesQualified,
+      modifierValues,
+    };
+
+    try {
+      const response = await fetch(
+        API_URL,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to save data");
+      }
+      console.log("Character information saved.")
+      // Handle success case
+    } catch (error) {
+      // Handle error case
+      console.log("Saved failed. Character information is not saved.")
+    }
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -75,6 +114,7 @@ function App() {
         handleAttributeCounter={handleAttributeCounter}
         modifierValues={modifierValues}
       />
+      <button onClick={(e) => { handleSaveCharacterInformation(e) }}>Save character</button>
     </div>)
 }
 
